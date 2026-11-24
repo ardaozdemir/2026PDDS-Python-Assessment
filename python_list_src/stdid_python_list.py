@@ -23,6 +23,14 @@ into the order dictionary.
 # Your Code Here
 user_orders = None  # Replace this with your solution
 
+user_names = {user["id"]: user["name"] for user in users}
+user_orders = []
+
+for order in orders:
+    user_order = order.copy()
+    user_order["name"] = user_names[order["user_id"]]
+    user_orders.append(user_order)
+
 print("Section 1: List joining")
 print(user_orders)
 
@@ -51,6 +59,16 @@ Dict structure:
 # Your Code Here
 grouped = None  # Replace this with your solution
 
+grouped = {}
+
+for order in user_orders:
+    name = order["name"]
+    if name not in grouped:
+        grouped[name] = {"total_price": 0, "order_count": 0}
+
+    grouped[name]["total_price"] += order["price"]
+    grouped[name]["order_count"] += 1
+
 print("Section 2: List Grouping")
 print(grouped)
 
@@ -66,6 +84,12 @@ Sort the grouped dictionary by "total_price" in descending order
 
 # Your Code Here
 sorted_grouped = None  # Replace this with your solution
+
+sorted_grouped = sorted(
+    grouped.items(),
+    key=lambda item: item[1]["total_price"],
+    reverse=True,
+)
 
 print("Section 3: List Sorting")
 print(sorted_grouped)
@@ -84,6 +108,13 @@ Print the details of the user with the highest total price from the sorted_group
 
 # Your Code Here
 highest_total_price_user = None  # Replace this with your solution
+
+top_name, top_totals = sorted_grouped[0]
+highest_total_price_user = {
+    "name": top_name,
+    "total_price": top_totals["total_price"],
+    "order_count": top_totals["order_count"],
+}
 
 print("Section 4: List Indexing")
 print(highest_total_price_user)
